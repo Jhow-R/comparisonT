@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace comparisonT
 {
@@ -10,12 +7,36 @@ namespace comparisonT
     {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            List<Product> list = new List<Product>();
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+            list.Add(new Product("TV", 900.00));
+            list.Add(new Product("Notebook", 1200.00));
+            list.Add(new Product("Tablet", 450.00));
+
+            // Ordenação com CompareTo (classe implementa IComparable<T>)
+            list.Sort();
+
+            // Ordenação com Comparison<T> (delegate)
+            Comparison<Product> comparison1 = CompareProducts;
+            list.Sort(comparison1);
+            // Ou
+            list.Sort(CompareProducts);
+
+            // Ordenação usando Lambda
+            Comparison<Product> comparison2 = (p1, p2) => p1.Name.ToUpper().CompareTo(p2.Name.ToUpper());
+            list.Sort(comparison2);
+            // Ou
+            list.Sort((p1, p2) => p1.Name.ToUpper().CompareTo(p2.Name.ToUpper()));
+
+            foreach (Product p in list)
+                Console.WriteLine(p);
+
+            Console.ReadLine();
+        }
+
+        static int CompareProducts(Product p1, Product p2)
+        {
+            return p1.Name.ToUpper().CompareTo(p2.Name.ToUpper());
         }
     }
 }
